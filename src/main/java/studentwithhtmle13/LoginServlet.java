@@ -1,6 +1,7 @@
 package studentwithhtmle13;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.GenericServlet;
@@ -26,15 +27,37 @@ public class LoginServlet extends HttpServlet {
 		StudentDao dao=new StudentDao();
 		List<Student> list=dao.getAllStudents();
 		boolean value=false;
-		
+		String studentPassword=null;
 		for(Student student:list) {
 			if(email.equals(student.getEmail())) {
 //				that student is present 
 				value=true;
+				studentPassword=student.getPassword();
 				break;
-				
 			}
 		}
+		PrintWriter printWriter=resp.getWriter();
+		
+		if(value) {
+//			value=Student is present with that email
+			if(password.equals(studentPassword)) {
+//			valid password
+//				Login success
+				printWriter.print("LOGIN SUCCESS");
+			}else {
+//				invalid password
+				printWriter.print("INVALID PASSWORD");
+			}
+		}else {
+//			value=false 
+//			student is not present with that email
+			printWriter.print("INVALID EMAIL");
+		}
+		
+		
+		
+		
+		
 		
 		
 		
